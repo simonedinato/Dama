@@ -91,14 +91,24 @@ Player::~Player(){
 }
 
 Player::Player(const Player& copy){
-    this->pimpl->next = new Impl;
-    while(this->pimpl){
-        this->pimpl->next = copy.pimpl->next;
-        this->pimpl->prev = copy.pimpl->prev;
-        this->pimpl->board = copy.pimpl->board;
-        this->player_nr = copy.player_nr;
+    delete this->pimpl;
+    this->pimpl = new Impl;
+    this->player_nr = copy.player_nr;
+    Impl* copy_pimpl = copy.pimpl;
+    while(copy_pimpl != nullptr){
+        this->pimpl->next = new Impl;
+        this->pimpl->next->prev = copy_pimpl;
+        for(int i = 0; i < 8; i++){
+            for(int j = 0; j < 8; j++){
+                this->pimpl->board[i][j] = copy_pimpl->board[i][j];
+            }
+        }
+        this->pimpl = this->pimpl->next;
+        copy_pimpl = copy_pimpl->next;
     }
 }
+
+
 
 int main(){
     Player p1{0};
