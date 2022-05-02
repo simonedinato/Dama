@@ -129,6 +129,13 @@ Player& Player::operator=(const Player& copy){
     return *this;
 }
 
+Player::piece Player::operator()(int r, int c, int history_offset) const{
+    Impl* this_pimpl = this->pimpl;
+    for(int i = 0; i < history_offset; i++){
+        this_pimpl = this_pimpl->next;
+    }
+    return this_pimpl->board[r][c];
+}
 
 
 int main(){
