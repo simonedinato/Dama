@@ -108,7 +108,26 @@ Player::Player(const Player& copy){
     }
 }
 
-
+Player& Player::operator=(const Player& copy){
+    if(this != &copy){
+        delete this->pimpl;
+        this->pimpl = new Impl;
+        this->player_nr = copy.player_nr;
+        Impl* copy_pimpl = copy.pimpl;
+        while(copy_pimpl != nullptr){
+            this->pimpl->next = new Impl;
+            this->pimpl->next->prev = copy_pimpl;
+            for(int i = 0; i < 8; i++){
+                for(int j = 0; j < 8; j++){
+                    this->pimpl->board[i][j] = copy_pimpl->board[i][j];
+                }
+            }
+            this->pimpl = this->pimpl->next;
+            copy_pimpl = copy_pimpl->next;
+        }
+    }
+    return *this;
+}
 
 int main(){
     Player p1{0};
