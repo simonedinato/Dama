@@ -134,6 +134,8 @@ Player& Player::operator=(const Player& copy){
 int main(){
     Player p1{0};
     Player p2{p1};
+
+    // ciao mamma
     
     return 0;
 }
