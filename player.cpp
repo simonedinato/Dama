@@ -86,7 +86,12 @@ Player::Player(int player_nr){
 }
 
 Player::~Player(){
-    delete pimpl;
+    while(this->pimpl){
+        Impl* tmp = this->pimpl;
+        this->pimpl = tmp->next;
+        delete tmp;
+    }
+    std::cout<<"Distruttore"<<std::endl;
 }
 
 Player::Player(const Player& copy){
