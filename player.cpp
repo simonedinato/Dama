@@ -86,7 +86,12 @@ Player::Player(int player_nr){
 }
 
 Player::~Player(){
-    delete pimpl;
+    while(this->pimpl){
+        Impl* tmp = this->pimpl;
+        this->pimpl = tmp->next;
+        delete tmp;
+    }
+    std::cout<<"Distruttore"<<std::endl;
 }
 
 Player::Player(const Player& copy){
@@ -106,6 +111,7 @@ Player::Player(const Player& copy){
         this->pimpl = this->pimpl->next;
         copy_pimpl = copy_pimpl->next;
     }
+    std::cout<<"copy constructor"<<std::endl;
 }
 
 Player& Player::operator=(const Player& copy){
@@ -127,6 +133,7 @@ Player& Player::operator=(const Player& copy){
             copy_pimpl = copy_pimpl->next;
         }
     }
+    std::cout<<"operator= "<<std::endl;
     return *this;
 }
 
@@ -145,14 +152,17 @@ Player::piece Player::operator()(int r, int c, int history_offset) const{
 }
 
 void load_board( const std::string& filename){
-    
+    std::ifstream file(filename);
+    //ofstream myfile;
+    //myfile.open(filename);
+
 }
 
 int main(){
-    Player p1{0};
-    Player p2{p1};
+    Player p1(0);
+    Player p2(p1);
 
-    // ciao mamma
+    
     
     return 0;
 }

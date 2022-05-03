@@ -3,7 +3,7 @@
 #include <fstream>
 #include <string>
 #include <thread>
-//implementazione
+
 using std::cout;
 using std::cin;
 using std::endl;
