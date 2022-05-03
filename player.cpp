@@ -106,6 +106,7 @@ Player::Player(const Player& copy){
         this->pimpl = this->pimpl->next;
         copy_pimpl = copy_pimpl->next;
     }
+    std::cout<<"copy constructor"<<std::endl;
 }
 
 Player& Player::operator=(const Player& copy){
@@ -127,6 +128,7 @@ Player& Player::operator=(const Player& copy){
             copy_pimpl = copy_pimpl->next;
         }
     }
+    std::cout<<"operator= "<<std::endl;
     return *this;
 }
 
