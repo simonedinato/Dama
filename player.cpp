@@ -1,13 +1,12 @@
 #include "player.hpp"
 
-enum piece {x,o, X, O, e};
-
 
 Player::Player(int player_nr){
     if(player_nr != 0 && player_nr != 1){
         throw player_exception{player_exception::index_out_of_bounds, "player_nr must be 0 or 1"};
     }
     this->player_nr = player_nr;
+    this->board_count = 1;
     pimpl = new Impl;
     pimpl->next = nullptr;
     pimpl->prev = nullptr;
@@ -94,6 +93,7 @@ Player::Player(const Player& copy){
     delete this->pimpl;
     this->pimpl = new Impl;
     this->player_nr = copy.player_nr;
+    this->board_count = copy.board_count;
     Impl* copy_pimpl = copy.pimpl;
     while(copy_pimpl != nullptr){
         this->pimpl->next = new Impl;
@@ -113,6 +113,7 @@ Player& Player::operator=(const Player& copy){
         delete this->pimpl;
         this->pimpl = new Impl;
         this->player_nr = copy.player_nr;
+        this->board_count = copy.board_count;
         Impl* copy_pimpl = copy.pimpl;
         while(copy_pimpl != nullptr){
             this->pimpl->next = new Impl;
@@ -130,6 +131,12 @@ Player& Player::operator=(const Player& copy){
 }
 
 Player::piece Player::operator()(int r, int c, int history_offset) const{
+    if(r < 0 || r > 7 || c < 0 || c > 7){
+        throw player_exception{player_exception::index_out_of_bounds, "r and c must be between 0 and 7"};
+    }
+    if(history_offset < 0 || history_offset > board_count){
+        throw player_exception{player_exception::index_out_of_bounds, "history_offset must be between 0 and board_count"};
+    }
     Impl* this_pimpl = this->pimpl;
     for(int i = 0; i < history_offset; i++){
         this_pimpl = this_pimpl->next;
@@ -137,6 +144,9 @@ Player::piece Player::operator()(int r, int c, int history_offset) const{
     return this_pimpl->board[r][c];
 }
 
+void load_board( const std::string& filename){
+    
+}
 
 int main(){
     Player p1{0};
