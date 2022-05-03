@@ -146,15 +146,16 @@ Player::piece Player::operator()(int r, int c, int history_offset) const{
 
 void load_board( const std::string& filename){
     std::ifstream file(filename);
-    my_file.open(filename);
+    //ofstream myfile;
+    //myfile.open(filename);
 
 }
 
 int main(){
-    Player p1{0};
-    Player p2{p1};
+    Player p1(0);
+    Player p2(p1);
 
-    // ciao mamma
+    
     
     return 0;
 }
