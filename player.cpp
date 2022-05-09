@@ -95,14 +95,16 @@ Player::~Player(){
 }
 
 Player::Player(const Player& copy){
-    //delete[] this->pimpl;
-    this->pimpl = new Impl{nullptr, nullptr};
-    this->player_nr = copy.player_nr;
-    this->board_count = copy.board_count;
     Impl* copy_pimpl = copy.pimpl;
-    while(copy_pimpl != nullptr){
-        this->pimpl->next = new Impl{nullptr, nullptr};
-        this->pimpl->next->prev = copy_pimpl;
+    if(copy_pimpl == nullptr){
+        this->pimpl = nullptr;
+    }
+    else{
+        this->player_nr = copy.player_nr;
+        this->board_count = copy.board_count;
+        copy_pimpl = copy_pimpl->next;
+        while(copy_pimpl != nullptr){
+        this->pimpl->next = new Impl{copy_pimpl->next, copy_pimpl->prev};
         for(int i = 0; i < 8; i++){
             for(int j = 0; j < 8; j++){
                 this->pimpl->board[i][j] = copy_pimpl->board[i][j];
@@ -110,6 +112,7 @@ Player::Player(const Player& copy){
         }
         this->pimpl = this->pimpl->next;
         copy_pimpl = copy_pimpl->next;
+    }
     }
     std::cout<<"copy constructor"<<std::endl;
 }
