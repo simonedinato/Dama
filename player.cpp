@@ -151,18 +151,18 @@ Player::piece Player::operator()(int r, int c, int history_offset) const{
     return this_pimpl->board[r][c];
 }
 
-void load_board( const std::string& filename){
-    std::ifstream file(filename);
-    //ofstream myfile;
-    //myfile.open(filename);
-
+void load_board( const std::string& filename){  
+    std::ifstream file;
+    file.open(filename);
+    if(file.is_open()){
+        
+    }
+    file.close();
 }
 
 int main(){
     Player p1(0);
     Player p2(p1);
-
-    
     
     return 0;
 }
