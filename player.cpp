@@ -96,7 +96,7 @@ Player::~Player(){
 
 Player::Player(const Player& copy){
     delete this->pimpl;
-    this->pimpl = new Impl;
+    this->pimpl = new Impl{nullptr, nullptr};
     this->player_nr = copy.player_nr;
     this->board_count = copy.board_count;
     Impl* copy_pimpl = copy.pimpl;
