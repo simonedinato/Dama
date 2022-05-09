@@ -89,13 +89,13 @@ Player::~Player(){
     while(this->pimpl){
         Impl* tmp = this->pimpl;
         this->pimpl = tmp->next;
-        delete tmp;
+        delete[] tmp;
     }
     std::cout<<"Distruttore"<<std::endl;
 }
 
 Player::Player(const Player& copy){
-    delete this->pimpl;
+    delete[] this->pimpl;
     this->pimpl = new Impl{nullptr, nullptr};
     this->player_nr = copy.player_nr;
     this->board_count = copy.board_count;
