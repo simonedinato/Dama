@@ -95,17 +95,17 @@ Player::~Player(){
 }
 
 Player::Player(const Player& copy){
-    if(copy.pimpl == nullptr){
+    Impl* copy_pimpl = copy.pimpl;
+    this->player_nr = copy.player_nr;
+    this->board_count = copy.board_count;
+    if(copy_pimpl == nullptr){ // errore 1
         this->pimpl = nullptr;
     }
     else{
-        this->player_nr = copy.player_nr;
-        this->board_count = copy.board_count;
         this->pimpl = new Impl{nullptr};
-        Impl* copy_pimpl = copy.pimpl;
         Impl* tmp = this->pimpl;
         while(copy_pimpl != nullptr){
-            tmp->next = new Impl;
+            tmp->next = new Impl{nullptr}; //errore 2
             for(int i = 0; i < 8; i++){
                 for(int j = 0; j < 8; j++){
                     tmp->board[i][j] = copy_pimpl->board[i][j];
