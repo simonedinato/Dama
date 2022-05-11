@@ -95,21 +95,34 @@ Player::~Player(){
 }
 
 Player::Player(const Player& copy){
-    delete this->pimpl;
-    this->pimpl = new Impl{nullptr, nullptr};
+    Impl* copy_pimpl = copy.pimpl;
     this->player_nr = copy.player_nr;
     this->board_count = copy.board_count;
-    Impl* copy_pimpl = copy.pimpl;
-    while(copy_pimpl != nullptr){
-        this->pimpl->next = new Impl;
-        this->pimpl->next->prev = copy_pimpl;
-        for(int i = 0; i < 8; i++){
-            for(int j = 0; j < 8; j++){
-                this->pimpl->board[i][j] = copy_pimpl->board[i][j];
+    if(copy_pimpl == nullptr){ // errore 1
+        this->pimpl = nullptr;
+    }
+    else{
+        this->pimpl = new Impl{nullptr};
+        Impl* tmp = this->pimpl;
+        while(copy_pimpl != nullptr){
+            tmp->next = new Impl{nullptr}; //errore 2
+            for(int i = 0; i < 8; i++){
+                for(int j = 0; j < 8; j++){
+                    tmp->board[i][j] = copy_pimpl->board[i][j];
+                }
             }
+            tmp->next->prev = tmp;
+            tmp = tmp->next;
+            copy_pimpl = copy_pimpl->next;
         }
-        this->pimpl = this->pimpl->next;
-        copy_pimpl = copy_pimpl->next;
+        Impl* copy_pimpl_prev = copy.pimpl->prev;
+        Impl* tmp_prev = this->pimpl->prev;
+        while(copy_pimpl_prev != nullptr){
+            tmp_prev = new Impl;
+            tmp_prev->prev->next = tmp_prev;
+            tmp_prev = tmp_prev->prev;
+            copy_pimpl_prev = copy_pimpl_prev->prev;
+        }
     }
     std::cout<<"copy constructor"<<std::endl;
 }
