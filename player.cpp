@@ -22,10 +22,6 @@ Player::Player(int player_nr){
         throw player_exception{player_exception::index_out_of_bounds, "player_nr must be either 0 or 1"};
     }
     pimpl = new Impl{ nullptr, nullptr, player_nr, 0};
-    pimpl->board = new Player::piece*[SIZE];
-    for(int i = 0; i < SIZE; i++){
-        pimpl->board[i] = new Player::piece[SIZE];
-    }
     std::cout<< "constructor over"<<std::endl;
 }
 
@@ -46,22 +42,23 @@ Player::~Player(){
 
 Player::Player(const Player& copy){
     std::cout<< "copy called"<<std::endl;
-    pimpl = new Impl;
-    Impl* temp = pimpl;
+    this->pimpl = new Impl{nullptr};
+    Impl* temp = this->pimpl;
     Impl* copytemp = copy.pimpl;
 
     while(copytemp != nullptr){
         temp->player_nr = copytemp->player_nr;;
         temp->board_count = copytemp->board_count;
         temp->board = newboard();
-        for(int i = 0; i < SIZE; i++){
-            for(int j = 0; j < SIZE; j++){
+
+        for(int i = 0; i < SIZE; i++)
+            for(int j = 0; j < SIZE; j++)
                 temp->board[i][j] = copytemp->board[i][j];
-            }
-        }
+
+        std::cout<< "STOP"<<std::endl;
         temp = temp->next;
         if(copytemp->next != nullptr){
-            temp = new Impl;
+            temp = new Impl{nullptr};
         }
         copytemp = copytemp->next;
     }
