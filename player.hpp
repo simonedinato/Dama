@@ -90,11 +90,4 @@ class Player{
 	private:
 		struct Impl;
 		Impl* pimpl;
-		struct Impl{
-    		Impl* next;
-    		Impl* prev;
-    		piece board[8][8];
-		};
-		int player_nr;
-		int board_count;
 };
