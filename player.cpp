@@ -13,7 +13,6 @@ Player::piece** newboard(){
     Player::piece** board = new Player::piece*[SIZE];
     for(int i = 0; i < SIZE; i++)
         board[i] = new Player::piece[SIZE];
-
     return board;
 }
 
@@ -35,6 +34,10 @@ Player::~Player(){
     while(pimpl != nullptr){
         Impl* temp = pimpl;
         pimpl = pimpl->next;
+        for(int i = 0; i < SIZE; i++){
+            delete[] temp->board[i];
+        }
+        delete[] temp->board;
         delete temp;
     }
     delete pimpl;
